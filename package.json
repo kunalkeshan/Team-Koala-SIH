@@ -1,0 +1,25 @@
+{
+  "name": "team-koala-sih",
+  "version": "1.0.0",
+  "description": "Team Koala SIH",
+  "main": "index.js",
+  "scripts": {
+    "start": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kunalkeshan/Team-Koala-SIH.git"
+  },
+  "author": "Team Koala",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kunalkeshan/Team-Koala-SIH/issues"
+  },
+  "homepage": "https://github.com/kunalkeshan/Team-Koala-SIH#readme",
+  "devDependencies": {
+    "concurrently": "^7.0.0"
+  },
+  "dependencies": {
+    "axios": "^0.26.1"
+  }
+}

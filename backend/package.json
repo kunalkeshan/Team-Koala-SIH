@@ -1,0 +1,35 @@
+{
+  "name": "team-koala-sih-backend",
+  "version": "1.0.0",
+  "description": "Team Koala SIH Backend",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/kunalkeshan/Team-Koala-SIH.git"
+  },
+  "author": "Team Koala",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kunalkeshan/Team-Koala-SIH/issues"
+  },
+  "homepage": "https://github.com/kunalkeshan/Team-Koala-SIH#readme",
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cookie-parser": "^1.4.6",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.2.6",
+    "morgan": "^1.10.0",
+    "nanoid": "^3.3.1",
+    "validator": "^13.7.0"
+  }
+}
