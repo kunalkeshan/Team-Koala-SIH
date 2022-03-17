@@ -15,6 +15,6 @@ const { checkJwt, checkRole } = require('../middlewares/auth');
     AUTHENTICATED ROUTES
 ================================ */
 
-Router.post('/committeeHead', checkJwt, checkRole(['AICTE Admin']),aicteAdminController.createCommitteeHead)
+Router.post('/committeeHead', checkJwt, checkRole(['AICTE Admin']), aicteAdminController.createCommitteeHead)
 
 module.exports = Router;

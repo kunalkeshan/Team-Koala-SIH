@@ -4,7 +4,8 @@
   "description": "Team Koala SIH",
   "main": "index.js",
   "scripts": {
-    "start": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\""
+    "start": "concurrently \"cd backend && npm run dev\" \"cd frontend && npm start\"",
+    "install:all": "npm i && concurrently \"cd backend && npm i\" \"cd frontend && npm i\""
   },
   "repository": {
     "type": "git",
@@ -18,8 +19,5 @@
   "homepage": "https://github.com/kunalkeshan/Team-Koala-SIH#readme",
   "devDependencies": {
     "concurrently": "^7.0.0"
-  },
-  "dependencies": {
-    "axios": "^0.26.1"
   }
 }
