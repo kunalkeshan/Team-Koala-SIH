@@ -47,6 +47,8 @@ function Auth() {
     e.preventDefault();
     try {
       if (!username) throw new Error('Username or email is required');
+      dispatch(enableLoading());
+      // TODO: API call to send an email if account exists
     } catch (error) {
       dispatch(showSnackbar({ message: error.message }));
     } finally {
@@ -78,7 +80,7 @@ function Auth() {
           pageAction === 'login' ?
             (
               <>
-                <div className="text-center mt-4" >Login</div>
+                <div className="text-center mt-4 text-xl" >Login</div>
                 <form className="p-3 mt-3" onSubmit={handleLoginUser}>
                   <div className="form-field flex items-center">
                     <PersonIcon />
@@ -86,7 +88,7 @@ function Auth() {
                       name="userName" id="userName" placeholder="Username or Email" onChange={handleUsernameState} />
                   </div>
                   <div className="form-field flex items-center">
-                    <KeyIcon/>
+                    <KeyIcon />
                     <input type="password" value={password}
                       name="password" id="pwd" placeholder="Password" onChange={handlePasswordState} />
                   </div>
@@ -98,7 +100,7 @@ function Auth() {
             :
             (
               <>
-                <div className="text-center mt-4" >Forgot Password</div>
+                <div className="text-center mt-4 text-xl" >Forgot Password</div>
                 <form className="p-3 mt-3" onSubmit={handleRequestResetPassword}>
                   <div className="form-field flex items-center">
                     <PersonIcon />
