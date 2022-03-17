@@ -3,12 +3,16 @@
  */
 
 // Dependencies
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import backend from '../utils/axios';
 import { isEmail } from 'validator/validator';
 import logo from '../assets/logo.jpg';
 import '../css/Auth.css';
+
+// Material UI
+import PersonIcon from '@mui/icons-material/Person';
+import KeyIcon from '@mui/icons-material/Key';
 
 // Actions
 import { showSnackbar, disableLoading, enableLoading } from '../store/features/app';
@@ -76,13 +80,13 @@ function Auth() {
               <>
                 <div className="text-center mt-4" >Login</div>
                 <form className="p-3 mt-3" onSubmit={handleLoginUser}>
-                  <div className="form-field d-flex align-items-center">
-                    <span className="far fa-user"></span>
+                  <div className="form-field flex items-center">
+                    <PersonIcon />
                     <input type="text" value={username}
                       name="userName" id="userName" placeholder="Username or Email" onChange={handleUsernameState} />
                   </div>
-                  <div className="form-field d-flex align-items-center">
-                    <span className="fas fa-key"></span>
+                  <div className="form-field flex items-center">
+                    <KeyIcon/>
                     <input type="password" value={password}
                       name="password" id="pwd" placeholder="Password" onChange={handlePasswordState} />
                   </div>
@@ -96,8 +100,8 @@ function Auth() {
               <>
                 <div className="text-center mt-4" >Forgot Password</div>
                 <form className="p-3 mt-3" onSubmit={handleRequestResetPassword}>
-                  <div className="form-field d-flex align-items-center">
-                    <span className="far fa-user"></span>
+                  <div className="form-field flex items-center">
+                    <PersonIcon />
                     <input type="text" value={username}
                       name="userName" id="userName" placeholder="Username or Email" onChange={handleUsernameState} />
                   </div>
