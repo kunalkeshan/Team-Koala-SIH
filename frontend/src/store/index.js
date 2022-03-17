@@ -8,12 +8,12 @@ import { configureStore } from '@reduxjs/toolkit';
 
 // Application Reducers
 import appReducer from './features/app';
-// import userReducer from './features/user';
+import userReducer from './features/user';
 
 const store = configureStore({
 	reducer: {
 		app: appReducer,
-		// user: userReducer,
+		user: userReducer,
 	},
 });
 

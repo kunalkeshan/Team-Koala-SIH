@@ -1,69 +1,113 @@
-import React, {useState, useEffect} from 'react';
+/**
+ * Auth Page
+ */
+
+// Dependencies
+import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import backend from '../utils/axios';
+import { isEmail } from 'validator/validator';
 import logo from '../assets/logo.jpg';
 import '../css/Auth.css';
-import backend from '../utils/axios';
-import { useDispatch } from 'react-redux';
 
 // Actions
-import {hideSnackbar, showSnackbar, disableLoading, enableLoading} from '../store/features/app'
+import { showSnackbar, disableLoading, enableLoading } from '../store/features/app';
+import { login } from '../store/features/user';
 
 function Auth() {
   const dispatch = useDispatch();
+  const [pageAction, setPageAction] = useState('login');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [disabled, setDisabled] = useState(true);
 
-  // useEffect(() => {
-  //   dispatch(showSnackbar({type: 'success', message: 'Login Successfull'}))
-  // }, [])
-
-  const loginUser = async (e) => {
+  const handleLoginUser = async (e) => {
     e.preventDefault();
     try {
-      dispatch(enableLoading())
-      const user = await backend({url: '/api/user/login', method: 'post', data: {email: username, password}});
-      dispatch(showSnackbar({type: 'success', message: 'Login Successfull'}))
-      console.log(user)
+      if (!username || !password) throw new Error('Username or email and password are required');
+      dispatch(enableLoading());
+      const data = {
+        [isEmail(username) ? 'email' : 'username']: username,
+        password,
+      };
+      const response = await backend({ url: '/api/user/login', method: 'post', data });
+      dispatch(showSnackbar({ type: 'success', message: 'Login Successful' }));
+      dispatch(login(response.data.user));
     } catch (error) {
-      console.log(error)
-      dispatch(showSnackbar({message: error.message}))
+      dispatch(showSnackbar({ message: error.message }));
     } finally {
-      dispatch(disableLoading())
+      dispatch(disableLoading());
     }
   };
 
+  const handleRequestResetPassword = async (e) => {
+    e.preventDefault();
+    try {
+      if (!username) throw new Error('Username or email is required');
+    } catch (error) {
+      dispatch(showSnackbar({ message: error.message }));
+    } finally {
+      dispatch(disableLoading());
+    }
+  }
+
   const handleUsernameState = (e) => {
     setUsername(e.target.value);
-    if(username.length > 0 && password.length > 0) setDisabled(false);
   };
 
   const handlePasswordState = (e) => {
     setPassword(e.target.value);
-    if(username.length > 0 && password.length > 0) setDisabled(false);
   };
+
+  const handlePageAction = (action) => () => {
+    setPageAction(action);
+    setUsername('');
+    setPassword('');
+  }
 
   return (
     <div>
-        <div className="wrapper">
-            <div className="logo"> 
-              <img src={logo} alt="AICTE Logo" /> 
-            </div>
-            <div className="text-center mt-4" >User Authentication</div>
-            <form className="p-3 mt-3" onSubmit={loginUser}>
-                <div className="form-field d-flex align-items-center"> 
-                  <span className="far fa-user"></span> 
-                  <input type="text"
-                        name="userName" id="userName" placeholder="Username" onChange={handleUsernameState}/> 
-                </div>
-                <div className="form-field d-flex align-items-center"> 
-                  <span className="fas fa-key"></span> 
-                  <input type="password"
-                        name="password" id="pwd" placeholder="Password" onChange={handlePasswordState}/> 
-                </div> 
-                <button disabled={disabled} className="btn mt-3" type='submit' >Login</button>
-            </form>
-            <div className="text-center fs-6"> <a href="#">Forget password?</a></div>
+      <div className="wrapper">
+        <div className="logo">
+          <img src={logo} alt="AICTE Logo" />
         </div>
+        {
+          pageAction === 'login' ?
+            (
+              <>
+                <div className="text-center mt-4" >Login</div>
+                <form className="p-3 mt-3" onSubmit={handleLoginUser}>
+                  <div className="form-field d-flex align-items-center">
+                    <span className="far fa-user"></span>
+                    <input type="text" value={username}
+                      name="userName" id="userName" placeholder="Username or Email" onChange={handleUsernameState} />
+                  </div>
+                  <div className="form-field d-flex align-items-center">
+                    <span className="fas fa-key"></span>
+                    <input type="password" value={password}
+                      name="password" id="pwd" placeholder="Password" onChange={handlePasswordState} />
+                  </div>
+                  <button className="btn mt-3" type='submit'>Login</button>
+                </form>
+                <div className="text-center fs-6"> <span className='cursor-pointer hover:underline' onClick={handlePageAction('password')}>Forget password?</span></div>
+              </>
+            )
+            :
+            (
+              <>
+                <div className="text-center mt-4" >Forgot Password</div>
+                <form className="p-3 mt-3" onSubmit={handleRequestResetPassword}>
+                  <div className="form-field d-flex align-items-center">
+                    <span className="far fa-user"></span>
+                    <input type="text" value={username}
+                      name="userName" id="userName" placeholder="Username or Email" onChange={handleUsernameState} />
+                  </div>
+                  <button className="btn mt-3" type='submit' >Request Email</button>
+                </form>
+                <div className="text-center fs-6"> Have an account? <span className='cursor-pointer hover:underline' onClick={handlePageAction('login')}>Login</span></div>
+              </>
+            )
+        }
+      </div>
     </div>
   )
 }
