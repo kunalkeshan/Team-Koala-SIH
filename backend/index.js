@@ -10,7 +10,7 @@ const cors = require('cors');
 const logger = require('morgan');
 const appRouter = require('./routers');
 const errorHandler = require('./middlewares/error');
-const {isProduction, PORT, secrets: {cookieSecret}} = require('./config/');
+const { isProduction, PORT, secrets: { cookieSecret }, reactAppUrl } = require('./config/');
 
 // Initializing Application
 require('./database');
@@ -21,7 +21,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(cookieParser(cookieSecret));
-app.use(cors());
+app.use(cors({
+    origin: reactAppUrl,
+    optionsSuccessStatus: 200,
+    credentials: true,
+}));
 app.use(logger(isProduction ? 'combined' : 'dev'));
 
 // Using App Router

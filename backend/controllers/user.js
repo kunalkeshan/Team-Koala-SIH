@@ -13,6 +13,9 @@ const userController = {};
     UNAUTHENTICATED CONTROLLERS
 ================================ */
 
+/**
+ * @route POST /api/user/login
+ */
 userController.loginUser = async (req, res, next) => {
     const { email = '', username = '', password } = req.body;
     try {
@@ -23,10 +26,10 @@ userController.loginUser = async (req, res, next) => {
         console.log(isUserPassword)
         if (!isUserPassword) throw new Error('Wrong password');
 
-        await Log.create({type: 'Login', log: `${user.fullName} logged in at ${Date().toString()}`, user: user._id});
-        await User.updateOne({_id: user._id}, {meta: {lastLogin: Date.now()}});
+        await Log.create({ type: 'Login', log: `${user.fullName} logged in at ${Date().toString()}`, user: user._id });
+        await User.updateOne({ _id: user._id }, { meta: { lastLogin: Date.now() } });
 
-        const ONE_DAY = 60 * 60 * 24 * 1000
+        const ONE_DAY = 60 * 60 * 24 * 1000;
         res.cookie('authToken', user.authToken, {
             httpOnly: true,
             signed: true,
@@ -49,8 +52,8 @@ userController.loginUser = async (req, res, next) => {
 
 userController.fetchMembers = async (req, res, next) => {
     try {
-        const {committee} = req.query;
-        let members = await User.find({committee});
+        const { committee } = req.query;
+        let members = await User.find({ committee });
         members = members.map((member) => {
             return member.sanitizeAndReturnUser();
         });
@@ -67,8 +70,8 @@ userController.fetchMembers = async (req, res, next) => {
 }
 
 userController.updateUserDetails = async (req, res, next) => {
-    const {_id} = res.locals.jwtPayload;
-    const {name, email, username, phone} = req.body;
+    const { _id } = res.locals.jwtPayload;
+    const { name, email, username, phone } = req.body;
     try {
         const user = await User.findById(_id);
         const details = {
@@ -82,12 +85,12 @@ userController.updateUserDetails = async (req, res, next) => {
             phone: phone || user.phone,
         };
 
-        await User.updateOne({_id}, {...details});
+        await User.updateOne({ _id }, { ...details });
         return res
             .status(200)
             .json({
                 message: 'Details updated',
-                data: {details},
+                data: { details },
                 success: true,
             });
     } catch (error) {
@@ -95,7 +98,7 @@ userController.updateUserDetails = async (req, res, next) => {
     }
 };
 
-userController.logout = (req, res, next) => {
+userController.logout = async (req, res, next) => {
     try {
         return res
             .clearCookie('authToken')

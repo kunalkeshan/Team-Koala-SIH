@@ -59,11 +59,11 @@ const userSchema = new Schema({
     timestamps: true,
 });
 
-userSchema.virtual('authToken').get(function(){
-    return jwt.sign({_id: this._id.toString()}, jwtSecret, {expiresIn: '1d'});
+userSchema.virtual('authToken').get(function () {
+    return jwt.sign({ _id: this._id.toString() }, jwtSecret, { expiresIn: '1d' });
 });
 
-userSchema.virtual('fullName').get(function(){
+userSchema.virtual('fullName').get(function () {
     return `${this.name.first}${this.name.middle ? ` ${this.name.middle} ` : ' '}${this.name.last}`
 })
 

@@ -9,6 +9,7 @@ import { useSelector } from 'react-redux';
 
 // Pages
 import Auth from '../pages/Auth';
+import Dashboard from '../pages/Dashboard';
 
 // Components
 
@@ -21,7 +22,7 @@ function AppRoutes() {
   }
 
   const CheckUserState = () => {
-    return user ? <div /> : <Navigate to='/' />
+    return user ? <Dashboard /> : <Navigate to='/' />
   }
 
 
