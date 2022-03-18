@@ -70,10 +70,9 @@ userController.fetchMembers = async (req, res, next) => {
 }
 
 userController.updateUserDetails = async (req, res, next) => {
-    const { _id } = res.locals.jwtPayload;
+    const { user } = res.locals;
     const { name, email, username, phone } = req.body;
     try {
-        const user = await User.findById(_id);
         const details = {
             name: {
                 first: name.first || user.name.first,
@@ -85,7 +84,7 @@ userController.updateUserDetails = async (req, res, next) => {
             phone: phone || user.phone,
         };
 
-        await User.updateOne({ _id }, { ...details });
+        await User.updateOne({ _id: user._id }, { ...details });
         return res
             .status(200)
             .json({
@@ -98,6 +97,9 @@ userController.updateUserDetails = async (req, res, next) => {
     }
 };
 
+/**
+ * @route POST /api/user/logout
+ */
 userController.logout = async (req, res, next) => {
     try {
         return res

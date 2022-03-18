@@ -13,6 +13,7 @@ import { showSnackbar, enableLoading, disableLoading } from '../store/features/a
 
 function Dashboard() {
     const dispatch = useDispatch();
+
     const handleUserLogout = async () => {
         try {
             dispatch(enableLoading());
@@ -25,6 +26,7 @@ function Dashboard() {
             dispatch(disableLoading());
         }
     }
+    
     return (
         <div>
             <h1>Dashboard</h1>

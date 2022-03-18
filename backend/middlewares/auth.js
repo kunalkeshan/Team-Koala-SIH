@@ -35,7 +35,10 @@ authenticate.checkRole = (ROLES = []) => async (req, res, next) => {
     let user;
     try {
         user = await User.findById(_id);
-        if (ROLES.includes(user.role)) return next();
+        if (ROLES.includes(user.role)) {
+            res.locals.user = user;
+            return next();
+        };
         throw new Error();
     } catch (error) {
         return res
