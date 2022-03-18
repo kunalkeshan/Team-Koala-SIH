@@ -53,6 +53,10 @@ const userSchema = new Schema({
                 default: false,
             },
             verifiedAt: Date,
+        },
+        createdBy: {
+            type: Schema.Types.ObjectId,
+            ref: 'User',
         }
     }
 }, {

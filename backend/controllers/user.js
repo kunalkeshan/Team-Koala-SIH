@@ -106,7 +106,7 @@ userController.logout = async (req, res, next) => {
             .clearCookie('authToken')
             .status(200)
             .json({
-                message: 'Logout successfull',
+                message: 'Logout successful',
                 data: {},
                 success: true,
             })
