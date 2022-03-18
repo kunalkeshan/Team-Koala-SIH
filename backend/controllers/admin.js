@@ -39,7 +39,8 @@ adminController.createAdmin = async (req, res, next) => {
 
 adminController.createAICTEAdmin = async (req, res, next) => {
     try {
-        const user = new User({ ...req.body, password: nanoid(), role: 'AICTE Admin' });
+        const password = nanoid();
+        const user = new User({ ...req.body, password, role: 'AICTE Admin' });
         await user.save();
 
         // TODO: Email created admin about their account creation and send their unhashed password in it

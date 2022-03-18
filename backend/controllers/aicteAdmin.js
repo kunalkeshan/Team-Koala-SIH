@@ -19,7 +19,8 @@ const aicteAdminController = {};
 
 aicteAdminController.createCommitteeHead = async (req, res, next) => {
     try {
-        const user = new User({ ...req.body, password: nanoid(), role: 'Committee Head' });
+        const password = nanoid();
+        const user = new User({ ...req.body, password, role: 'Committee Head' });
         await user.save();
 
         // TODO: Email created user about their account creation and send their unhashed password in it
