@@ -3,11 +3,11 @@ import {BrowserRouter as Router} from 'react-router-dom';
 import BackdropComponent from './components/Reusable/Backdrop';
 import SnackbarComponent from './components/Reusable/Snackbar';
 
-import AppRoutes from './routes/AppRoutes';
+import AppRoutes from './routes/';
 
 function App() {
   return (
-    <div className="App">
+    <div className="w-full h-screen">
       <SnackbarComponent />
       <BackdropComponent />
       <Router>
